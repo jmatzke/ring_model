@@ -32,7 +32,17 @@
 
 # Example CMake build configuration file for a Chaste user project.
 # See also https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeBuildGuide for full documentation.
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+    set(DEPRECATION_FLAG "-wr1478")
+else()
+    set(DEPRECATION_FLAG "-Wno-deprecated-declarations")
+endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${DEPRECATION_FLAG}")
+SET(GCC_COVERAGE_COMPILE_FLAGS "-fopenmp")
+SET(GCC_COVERAGE_LINK_FLAGS "-fopenmp")
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
 
 # This allows us to build tests of the project.
 # Simply set the project name in the line below.
-chaste_do_test_project(template_project)
+chaste_do_test_project(ring_model)
